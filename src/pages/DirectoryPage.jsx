@@ -30,7 +30,7 @@ const DirectoryPage = () => {
   }, []);
 
   return (
-    <div className="w-full h-auto bg-lime-500 grid  place-items-center">
+    <div className="w-full h-auto grid  place-items-center bg-gradient-to-br from-blue-300 to-purple-300 p-8 rounded-md shadow-lg ">
       <h1 className="w-full text-center text-4xl font-bold"> Directory</h1>
       <UserListLayout>
         {users.map((user) => (

@@ -1,62 +1,105 @@
-import React from "react";
-import { DownOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-const items = [
-  {
-    label: <a href="https://www.antgroup.com">1st menu item</a>,
-    key: "0",
-  },
-  {
-    label: <a href="https://www.aliyun.com">2nd menu item</a>,
-    key: "1",
-  },
-  {
-    type: "divider",
-  },
-  {
-    label: "3rd menu item",
-    key: "3",
-  },
-];
-const DropdownList = () => {
-  const { countries } = useSelector((state) => state.users);
-  console.log("DropdownList", countries);
-  // <Dropdown
-  //   menu={{
-  //     items,
-  //   }}
-  //   trigger={["click"]}
-  //   type="primary"
+import { getData } from "../services/api";
+import { BaseCountryURL } from "../services/constants";
 
-  // >
-  //   <a onClick={(e) => e.preventDefault()}>
-  //     <Space  >
-  //       Click me
-  //       <DownOutlined />
-  //     </Space>
-  //   </a>
-  // </Dropdown>
+let timerId = null;
+const DropdownList = () => {
+  const [isPause, setIsPause] = useState(false);
+  const [countrydata, setCountrydata] = useState({});
+  const [countryTimer, setCountryTimer] = useState("00:00:00");
+  const [countryName, setcountryName] = useState("");
+
+  const { countries } = useSelector((state) => state.users);
+
+  const handleSelectChange = async (event) => {
+    const selectedValue = event.target.value;
+    console.log(selectedValue);
+    // setSelectedOption(selectedValue);
+    setcountryName(selectedValue);
+
+    const response = await getData(`${BaseCountryURL}/${selectedValue}`);
+    setCountrydata(response);
+
+    const time = response.datetime.slice(11, 19);
+    console.log(time);
+
+    setCountryTimer(time);
+  };
+
   return (
-    <div>
+    <div className="w-1/2  flex flex-row  justify-between items-center  ">
       {/* <label htmlFor="cars">Choose an option:</label> */}
       <select
         id="countries"
         name="countries"
-        className="p-3 bg-gray-600 text-white hover:bg-slate-800 rounded-xl"
+        value={countryName}
+        // onSelect={console.log("hiiii")}
+        onChange={handleSelectChange}
+        className=" w-52 p-3 me-2 text-lg bg-gray-600 text-white hover:bg-slate-700 rounded-lg"
       >
-        <option value="" disabled selected hidden>
+        <option className="w-52 max-w-4" value="" disabled defaultValue hidden>
           Select a country
         </option>
-        {countries.map((country) => (
-          <option value={country}>{country}</option>
+        {countries.map((country, i) => (
+          <option key={i} className="!max-w-4" value={country}>
+            {country}
+          </option>
         ))}
-
-        {/* <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="mercedes">Mercedes</option>
-        <option value="audi">Audi</option> */}
       </select>
+
+      <button type="button" className="btn-timer bg-gradient-to-r ">
+        {countryTimer}
+      </button>
+
+      <button
+        type="button"
+        className={
+          isPause ? "btn-pause bg-gradient-to-r" : "btn-start bg-gradient-to-r "
+        }
+        onClick={() => {
+          let [hours, minutes, seconds] = countryTimer.split(":");
+          console.log(hours, minutes, seconds);
+          console.log(isPause);
+
+          if (!isPause) {
+            if (!timerId) {
+              console.log("Timer started");
+
+              timerId = setInterval(() => {
+                console.log("isPauselahdhlald", isPause);
+                seconds++;
+                if (seconds === 60) {
+                  seconds = 0;
+                  minutes++;
+                  if (minutes === 60) {
+                    minutes = 0;
+                    hours++;
+                  }
+                }
+                console.log(
+                  `${hours.toString().padStart(2, "0")}:${minutes
+                    .toString()
+                    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+                );
+                console.log(isPause, timerId);
+                setCountryTimer(
+                  `${hours.toString().padStart(2, "0")}:${minutes
+                    .toString()
+                    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+                );
+              }, 1000);
+            }
+          } else {
+            clearInterval(timerId);
+            timerId = null;
+          }
+
+          setIsPause(!isPause);
+        }}
+      >
+        {isPause ? "Pause" : "Start"}
+      </button>
     </div>
   );
 };

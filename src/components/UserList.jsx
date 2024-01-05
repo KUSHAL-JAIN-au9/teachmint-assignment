@@ -7,9 +7,9 @@ const UserList = ({ user }) => {
   const { users, posts } = useSelector((state) => state.users);
 
   return (
-    <li class="pb-3 sm:pb-4 hover:cursor-pointer hover:scale-105 ">
+    <li class="pb-3 sm:pb-4 hover:cursor-pointer hover:scale-105  ">
       <Link to={`${user.id}`} state={user}>
-        <div class="flex items-center space-x-4 rtl:space-x-reverse border  rounded-xl p-5">
+        <div class="flex items-center space-x-4 rtl:space-x-reverse  inset-0 bg-opacity-25 bg-white backdrop-blur-lg  rounded-xl p-5">
           <div class="flex-shrink-0">
             <img class="w-8 h-8 rounded-full" src={Man} alt="Neil image" />
           </div>
