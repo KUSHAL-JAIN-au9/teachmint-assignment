@@ -47,3 +47,7 @@ export function startTimer(time, ispause) {
 
   return { startTimer, pauseTimer };
 }
+
+export function truncateText(text, maxLength) {
+  return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+}

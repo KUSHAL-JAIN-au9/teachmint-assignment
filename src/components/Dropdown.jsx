@@ -28,7 +28,7 @@ const DropdownList = () => {
   };
 
   return (
-    <div className="w-1/2  flex flex-row  justify-between items-center  ">
+    <div className="md:w-2/3 lg:1/2  flex flex-row  justify-between items-center  ">
       {/* <label htmlFor="cars">Choose an option:</label> */}
       <select
         id="countries"
@@ -36,9 +36,15 @@ const DropdownList = () => {
         value={countryName}
         // onSelect={console.log("hiiii")}
         onChange={handleSelectChange}
-        className=" w-52 p-3 me-2 text-lg bg-gray-600 text-white hover:bg-slate-700 rounded-lg"
+        className=" w-52 p-3 me-2  text-lg bg-gray-600 text-white hover:bg-slate-700 rounded-lg"
       >
-        <option className="w-52 max-w-4" value="" disabled defaultValue hidden>
+        <option
+          className="sm:w-52 max-w-4"
+          value=""
+          disabled
+          defaultValue
+          hidden
+        >
           Select a country
         </option>
         {countries.map((country, i) => (
