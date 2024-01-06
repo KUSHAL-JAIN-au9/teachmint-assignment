@@ -11,12 +11,8 @@ const DirectoryPage = () => {
   const dispatch = useDispatch();
   const history = useNavigate();
 
-  const { users, posts } = useSelector((state) => state.users);
-  console.log(
-    "redux data============================================>",
-    users,
-    posts
-  );
+  const { users } = useSelector((state) => state.users);
+
   useEffect(() => {
     const fechData = async () => {
       const userData = await getData(UserListData);

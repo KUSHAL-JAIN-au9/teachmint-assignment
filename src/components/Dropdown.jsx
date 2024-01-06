@@ -88,7 +88,7 @@ const DropdownList = () => {
                     .toString()
                     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
                 );
-                console.log(isPause, timerId);
+                // console.log(isPause, timerId);
                 setCountryTimer(
                   `${hours.toString().padStart(2, "0")}:${minutes
                     .toString()

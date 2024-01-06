@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const UserList = ({ user }) => {
-  const { users, posts } = useSelector((state) => state.users);
+  const { posts } = useSelector((state) => state.users);
 
   return (
     <li class="pb-3 sm:pb-4 hover:cursor-pointer hover:scale-105  ">
